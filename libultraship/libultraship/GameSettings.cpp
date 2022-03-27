@@ -61,7 +61,7 @@ namespace Game {
         CVar_SetS32(const_cast<char*>("gDebugEnabled"), Settings.enhancements.debug_mode);
 
         Settings.enhancements.minimal_ui = stob(Conf[EnhancementSection]["minimal_ui"]);
-        CVar_SetS32(const_cast<char*>("gMinUi"), Settings.enhancements.minimal_ui);
+        CVar_SetS32(const_cast<char*>("gMinimalUI"), Settings.enhancements.minimal_ui);
 
         Settings.enhancements.default_disable_minimap = stob(Conf[EnhancementSection]["default_disable_minimap"]);
         CVar_SetS32(const_cast<char*>("gDefaultDisableMinimap"), Settings.enhancements.default_disable_minimap);

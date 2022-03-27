@@ -2617,7 +2617,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
 
-    if (gSaveContext.magicLevel != 0 && (!CVar_GetS32("gMinUi", 0) || gSaveContext.unk_13F0 == 4 || globalCtx->pauseCtx.state != 0)) {
+    if (gSaveContext.magicLevel != 0 && (!CVar_GetS32("gMinimalUI", 0) || gSaveContext.unk_13F0 == 4 || globalCtx->pauseCtx.state != 0)) {
         if (gSaveContext.healthCapacity > 0xA0) {
             magicBarY = R_MAGIC_BAR_LARGE_Y;
         } else {
@@ -3143,7 +3143,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     s16 svar4;
     s16 svar5;
     s16 svar6;
-    bool fullUi = !CVar_GetS32("gMinUi", 0);
+    bool fullUi = !CVar_GetS32("gMinimalUI", 0);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
