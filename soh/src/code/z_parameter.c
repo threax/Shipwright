@@ -3275,7 +3275,6 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         Interface_DrawMagicBar(globalCtx);
-
         Minimap_Draw(globalCtx);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
