@@ -2617,7 +2617,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
 
-    if (gSaveContext.magicLevel != 0) {
+    if (gSaveContext.magicLevel != 0 && gSaveContext.unk_13F0 == 4) {
         if (gSaveContext.healthCapacity > 0xA0) {
             magicBarY = R_MAGIC_BAR_LARGE_Y;
         } else {
@@ -3263,7 +3263,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         Interface_DrawMagicBar(globalCtx);
-        Minimap_Draw(globalCtx);
+        //Minimap_Draw(globalCtx);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
             func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
@@ -3271,7 +3271,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         func_80094520(globalCtx->state.gfxCtx);
 
-        Interface_DrawItemButtons(globalCtx);
+        //Interface_DrawItemButtons(globalCtx);
 
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
@@ -3281,10 +3281,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // B Button Icon & Ammo Count
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE)
             {
-                Interface_DrawItemIconTexture(globalCtx, gItemIcons[gSaveContext.equips.buttonItems[0]], 0);
-
                 if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
+
+                    Interface_DrawItemIconTexture(globalCtx, gItemIcons[gSaveContext.equips.buttonItems[0]], 0);
+
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -3357,7 +3358,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_A_BTN_COLOR(0), R_A_BTN_COLOR(1), R_A_BTN_COLOR(2),
                         interfaceCtx->aAlpha);
-        Interface_DrawActionButton(globalCtx, rABtnX, R_A_BTN_Y);
+        //Interface_DrawActionButton(globalCtx, rABtnX, R_A_BTN_Y);
         gDPPipeSync(OVERLAY_DISP++);
         const f32 rAIconX = OTRGetDimensionFromRightEdge(R_A_ICON_X);
         //func_8008A8B8(globalCtx, R_A_ICON_Y, R_A_ICON_Y + 45, rAIconX, rAIconX + 45);
