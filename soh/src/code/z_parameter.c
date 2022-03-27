@@ -3158,7 +3158,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->debugState == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        HealthMeter_Draw(globalCtx);
+        if (gSaveContext.health != gSaveContext.healthCapacity) {
+            HealthMeter_Draw(globalCtx);
+        }
 
         func_80094520(globalCtx->state.gfxCtx);
 
