@@ -63,9 +63,6 @@ namespace Game {
         Settings.enhancements.minimal_ui = stob(Conf[EnhancementSection]["minimal_ui"]);
         CVar_SetS32(const_cast<char*>("gMinimalUI"), Settings.enhancements.minimal_ui);
 
-        Settings.enhancements.default_disable_minimap = stob(Conf[EnhancementSection]["default_disable_minimap"]);
-        CVar_SetS32(const_cast<char*>("gDefaultDisableMinimap"), Settings.enhancements.default_disable_minimap);
-
         Settings.audio.master = Ship::stof(Conf[AudioSection]["master"]);
         CVar_SetFloat(const_cast<char*>("gGameMasterVolume"), Settings.audio.master);
 
@@ -119,7 +116,6 @@ namespace Game {
         Conf[EnhancementSection]["animated_pause_menu"] = std::to_string(Settings.enhancements.animated_pause_menu);
         Conf[EnhancementSection]["debug_mode"] = std::to_string(Settings.enhancements.debug_mode);
         Conf[EnhancementSection]["minimal_ui"] = std::to_string(Settings.enhancements.minimal_ui);
-        Conf[EnhancementSection]["default_disable_minimap"] = std::to_string(Settings.enhancements.default_disable_minimap);
 
         Conf[ControllerSection]["gyro_sensitivity"] = std::to_string(Settings.controller.gyro_sensitivity);
         Conf[ControllerSection]["rumble_strength"]  = std::to_string(Settings.controller.rumble_strength);
