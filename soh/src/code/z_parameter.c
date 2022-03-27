@@ -3381,7 +3381,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_A_BTN_COLOR(0), R_A_BTN_COLOR(1), R_A_BTN_COLOR(2),
                         interfaceCtx->aAlpha);
-        //Interface_DrawActionButton(globalCtx, rABtnX, R_A_BTN_Y);
+        if (fullUi) {
+            Interface_DrawActionButton(globalCtx, rABtnX, R_A_BTN_Y);
+        }
         gDPPipeSync(OVERLAY_DISP++);
         const f32 rAIconX = OTRGetDimensionFromRightEdge(R_A_ICON_X);
         //func_8008A8B8(globalCtx, R_A_ICON_Y, R_A_ICON_Y + 45, rAIconX, rAIconX + 45);
