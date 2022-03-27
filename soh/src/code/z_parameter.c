@@ -3143,6 +3143,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     s16 svar4;
     s16 svar5;
     s16 svar6;
+    bool fullUi = !CVar_GetS32("gMinUi", 0);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
@@ -3158,14 +3159,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->debugState == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        if (gSaveContext.health != gSaveContext.healthCapacity) {
+        if (fullUi || gSaveContext.health != gSaveContext.healthCapacity) {
             HealthMeter_Draw(globalCtx);
         }
 
         func_80094520(globalCtx->state.gfxCtx);
 
         //Show Rupees and keys on pause only
-        if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
+        if (fullUi || globalCtx->pauseCtx.state != 0) {
             // Rupee Icon
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 100, interfaceCtx->magicAlpha);
             gDPSetEnvColor(OVERLAY_DISP++, 0, 80, 0, 255);
@@ -3267,12 +3268,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
         }
 
-        //Make sure item counts have black backgrounds
-        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 0, interfaceCtx->magicAlpha);
-        gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
+        if (!fullUi) {
+            // Make sure item counts have black backgrounds
+            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 0, interfaceCtx->magicAlpha);
+            gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
+        }
 
         Interface_DrawMagicBar(globalCtx);
-        //Minimap_Draw(globalCtx);
+
+        if (!CVar_GetS32("gHideMinimap", 0)) {
+            Minimap_Draw(globalCtx);
+        }
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
             func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
@@ -3280,7 +3286,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         func_80094520(globalCtx->state.gfxCtx);
 
-        //Interface_DrawItemButtons(globalCtx);
+        if (fullUi) {
+            Interface_DrawItemButtons(globalCtx);
+        }
 
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
@@ -3290,11 +3298,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // B Button Icon & Ammo Count
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE)
             {
+                if (fullUi) {
+                    Interface_DrawItemIconTexture(globalCtx, gItemIcons[gSaveContext.equips.buttonItems[0]], 0);
+                }
+
                 if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
-
-                    Interface_DrawItemIconTexture(globalCtx, gItemIcons[gSaveContext.equips.buttonItems[0]], 0);
-
+                    
+                    if (!fullUi) {
+                        Interface_DrawItemIconTexture(globalCtx, gItemIcons[gSaveContext.equips.buttonItems[0]], 0);
+                    }
+                    
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
