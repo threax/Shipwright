@@ -25,7 +25,6 @@ struct SoHConfigType {
         bool animated_pause_menu = false;
         bool debug_mode = false;
         bool minimal_ui = false;
-        bool hide_minimap = false;
     } enhancements;
 
     struct {

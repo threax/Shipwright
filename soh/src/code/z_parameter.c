@@ -3276,9 +3276,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         Interface_DrawMagicBar(globalCtx);
 
-        if (!CVar_GetS32("gHideMinimap", 0)) {
-            Minimap_Draw(globalCtx);
-        }
+        Minimap_Draw(globalCtx);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
             func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
