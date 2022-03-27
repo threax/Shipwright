@@ -341,6 +341,11 @@ namespace SohImGui {
                     needs_save = true;
                 }
 
+                if (ImGui::Checkbox("Default Disable Minimap", &Game::Settings.enhancements.default_disable_minimap)) {
+                    CVar_SetS32(const_cast<char*>("gDefaultDisableMinimap"), Game::Settings.enhancements.default_disable_minimap);
+                    needs_save = true;
+                }
+
                 ImGui::Text("Graphics");
                 ImGui::Separator();
 
