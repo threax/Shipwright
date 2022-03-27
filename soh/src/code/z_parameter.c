@@ -2617,7 +2617,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
 
-    if (gSaveContext.magicLevel != 0 && gSaveContext.unk_13F0 == 4) {
+    if (gSaveContext.magicLevel != 0 && (!CVar_GetS32("gMinUi", 0) || gSaveContext.unk_13F0 == 4)) {
         if (gSaveContext.healthCapacity > 0xA0) {
             magicBarY = R_MAGIC_BAR_LARGE_Y;
         } else {
