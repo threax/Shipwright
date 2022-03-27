@@ -3164,105 +3164,112 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         func_80094520(globalCtx->state.gfxCtx);
 
-        // Rupee Icon
-        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 100, interfaceCtx->magicAlpha);
-        gDPSetEnvColor(OVERLAY_DISP++, 0, 80, 0, 255);
-        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gRupeeCounterIconTex, 16, 16, OTRGetRectDimensionFromLeftEdge(26),
-                                      206, 16, 16, 1 << 10, 1 << 10);
+        //Show Rupees and keys on pause only
+        if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
+            // Rupee Icon
+            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 100, interfaceCtx->magicAlpha);
+            gDPSetEnvColor(OVERLAY_DISP++, 0, 80, 0, 255);
+            OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gRupeeCounterIconTex, 16, 16, OTRGetRectDimensionFromLeftEdge(26),
+                                          206, 16, 16, 1 << 10, 1 << 10);
 
-        switch (globalCtx->sceneNum) {
-            case SCENE_BMORI1:
-            case SCENE_HIDAN:
-            case SCENE_MIZUSIN:
-            case SCENE_JYASINZOU:
-            case SCENE_HAKADAN:
-            case SCENE_HAKADANCH:
-            case SCENE_ICE_DOUKUTO:
-            case SCENE_GANON:
-            case SCENE_MEN:
-            case SCENE_GERUDOWAY:
-            case SCENE_GANONTIKA:
-            case SCENE_GANON_SONOGO:
-            case SCENE_GANONTIKA_SONOGO:
-            case SCENE_TAKARAYA:
-                if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] >= 0) {
-                    // Small Key Icon
-                    gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 230, 255, interfaceCtx->magicAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 20, 255);
-                    OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gSmallKeyCounterIconTex, 16, 16, OTRGetRectDimensionFromLeftEdge(26), 190, 16, 16,
-                                                  1 << 10, 1 << 10);
+            switch (globalCtx->sceneNum) {
+                case SCENE_BMORI1:
+                case SCENE_HIDAN:
+                case SCENE_MIZUSIN:
+                case SCENE_JYASINZOU:
+                case SCENE_HAKADAN:
+                case SCENE_HAKADANCH:
+                case SCENE_ICE_DOUKUTO:
+                case SCENE_GANON:
+                case SCENE_MEN:
+                case SCENE_GERUDOWAY:
+                case SCENE_GANONTIKA:
+                case SCENE_GANON_SONOGO:
+                case SCENE_GANONTIKA_SONOGO:
+                case SCENE_TAKARAYA:
+                    if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] >= 0) {
+                        // Small Key Icon
+                        gDPPipeSync(OVERLAY_DISP++);
+                        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 230, 255, interfaceCtx->magicAlpha);
+                        gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 20, 255);
+                        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gSmallKeyCounterIconTex, 16, 16, OTRGetRectDimensionFromLeftEdge(26), 190, 16, 16,
+                                                      1 << 10, 1 << 10);
 
-                    // Small Key Counter
-                    gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
-                    gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
-                                      TEXEL0, 0, PRIMITIVE, 0);
+                        // Small Key Counter
+                        gDPPipeSync(OVERLAY_DISP++);
+                        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
+                        gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
+                                          TEXEL0, 0, PRIMITIVE, 0);
 
-                    interfaceCtx->counterDigits[2] = 0;
-                    interfaceCtx->counterDigits[3] = gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex];
+                        interfaceCtx->counterDigits[2] = 0;
+                        interfaceCtx->counterDigits[3] = gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex];
 
-                    while (interfaceCtx->counterDigits[3] >= 10) {
-                        interfaceCtx->counterDigits[2]++;
-                        interfaceCtx->counterDigits[3] -= 10;
+                        while (interfaceCtx->counterDigits[3] >= 10) {
+                            interfaceCtx->counterDigits[2]++;
+                            interfaceCtx->counterDigits[3] -= 10;
+                        }
+
+                        svar3 = OTRGetRectDimensionFromLeftEdge(42);
+
+                        if (interfaceCtx->counterDigits[2] != 0) {
+                            OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, ((u8*)((u8*)digitTextures[interfaceCtx->counterDigits[2]])), 8,
+                                              16, svar3, 190, 8, 16, 1 << 10, 1 << 10);
+                            svar3 += 8;
+                        }
+
+                        OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP,
+                                                    ((u8*)digitTextures[interfaceCtx->counterDigits[3]]), 8, 16,
+                                          svar3, 190, 8, 16, 1 << 10, 1 << 10);
                     }
+                    break;
+                default:
+                    break;
+            }
 
-                    svar3 = OTRGetRectDimensionFromLeftEdge(42);
+            // Rupee Counter
+            gDPPipeSync(OVERLAY_DISP++);
 
-                    if (interfaceCtx->counterDigits[2] != 0) {
-                        OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, ((u8*)((u8*)digitTextures[interfaceCtx->counterDigits[2]])), 8,
-                                          16, svar3, 190, 8, 16, 1 << 10, 1 << 10);
-                        svar3 += 8;
-                    }
+            if (gSaveContext.rupees == CUR_CAPACITY(UPG_WALLET)) {
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, interfaceCtx->magicAlpha);
+            } else if (gSaveContext.rupees != 0) {
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
+            } else {
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 100, 100, interfaceCtx->magicAlpha);
+            }
 
-                    OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP,
-                                                ((u8*)digitTextures[interfaceCtx->counterDigits[3]]), 8, 16,
-                                      svar3, 190, 8, 16, 1 << 10, 1 << 10);
-                }
-                break;
-            default:
-                break;
+            gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                              PRIMITIVE, 0);
+
+            interfaceCtx->counterDigits[0] = interfaceCtx->counterDigits[1] = 0;
+            interfaceCtx->counterDigits[2] = gSaveContext.rupees;
+
+            if ((interfaceCtx->counterDigits[2] > 9999) || (interfaceCtx->counterDigits[2] < 0)) {
+                interfaceCtx->counterDigits[2] &= 0xDDD;
+            }
+
+            while (interfaceCtx->counterDigits[2] >= 100) {
+                interfaceCtx->counterDigits[0]++;
+                interfaceCtx->counterDigits[2] -= 100;
+            }
+
+            while (interfaceCtx->counterDigits[2] >= 10) {
+                interfaceCtx->counterDigits[1]++;
+                interfaceCtx->counterDigits[2] -= 10;
+            }
+
+            svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
+            svar5 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+
+            for (svar1 = 0, svar3 = 42; svar1 < svar5; svar1++, svar2++, svar3 += 8) {
+                OVERLAY_DISP =
+                    Gfx_TextureI8(OVERLAY_DISP, ((u8*)digitTextures[interfaceCtx->counterDigits[svar2]]), 8, 16,
+                        OTRGetRectDimensionFromLeftEdge(svar3), 206, 8, 16, 1 << 10, 1 << 10);
+            }
         }
 
-        // Rupee Counter
-        gDPPipeSync(OVERLAY_DISP++);
-
-        if (gSaveContext.rupees == CUR_CAPACITY(UPG_WALLET)) {
-            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, interfaceCtx->magicAlpha);
-        } else if (gSaveContext.rupees != 0) {
-            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
-        } else {
-            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 100, 100, interfaceCtx->magicAlpha);
-        }
-
-        gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
-                          PRIMITIVE, 0);
-
-        interfaceCtx->counterDigits[0] = interfaceCtx->counterDigits[1] = 0;
-        interfaceCtx->counterDigits[2] = gSaveContext.rupees;
-
-        if ((interfaceCtx->counterDigits[2] > 9999) || (interfaceCtx->counterDigits[2] < 0)) {
-            interfaceCtx->counterDigits[2] &= 0xDDD;
-        }
-
-        while (interfaceCtx->counterDigits[2] >= 100) {
-            interfaceCtx->counterDigits[0]++;
-            interfaceCtx->counterDigits[2] -= 100;
-        }
-
-        while (interfaceCtx->counterDigits[2] >= 10) {
-            interfaceCtx->counterDigits[1]++;
-            interfaceCtx->counterDigits[2] -= 10;
-        }
-
-        svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        svar5 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
-
-        for (svar1 = 0, svar3 = 42; svar1 < svar5; svar1++, svar2++, svar3 += 8) {
-            OVERLAY_DISP =
-                Gfx_TextureI8(OVERLAY_DISP, ((u8*)digitTextures[interfaceCtx->counterDigits[svar2]]), 8, 16,
-                    OTRGetRectDimensionFromLeftEdge(svar3), 206, 8, 16, 1 << 10, 1 << 10);
-        }
+        //Make sure item counts have black backgrounds
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 0, interfaceCtx->magicAlpha);
+        gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
 
         Interface_DrawMagicBar(globalCtx);
         //Minimap_Draw(globalCtx);
